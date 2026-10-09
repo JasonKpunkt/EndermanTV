@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Clone Foundation</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Import Three.js as an ES module -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+</head>
+<body>
+    <div id="ui">
+        <div id="crosshair">+</div>
+        <div id="toolbar">
+            <div class="slot active" id="slot-1" style="background-color: #8B4513;">1: Dirt</div>
+            <div class="slot" id="slot-2" style="background-color: #808080;">2: Stone</div>
+            <div class="slot" id="slot-3" style="background-color: #F4A460;">3: Wood</div>
+            <div class="slot" id="slot-4" style="background-color: #D2B48C;">4: Sand</div>
+            <div class="slot" id="slot-5" style="background-color: rgba(173, 216, 230, 0.5);">5: Glass</div>
+        </div>
+        <div id="instructions">
+            <span style="font-size:40px">Click to play</span>
+            <br />
+            (W, A, S, D = Move, SPACE = Jump, MOUSE = Look around)<br />
+            (Left Click = Break block, Right Click = Place block, 1-5 = Select block)
+        </div>
+    </div>
+    <script src="perlin.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
