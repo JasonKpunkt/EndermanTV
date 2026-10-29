@@ -34,6 +34,8 @@ let dirtMaterial, grassMaterial, stoneMaterial, woodMaterial, sandMaterial, glas
 
 // 1: Dirt, 2: Stone, 3: Wood, 4: Sand, 5: Glass
 let selectedBlockType = 1;
+let uiSlots = [];
+let previousSelectedBlockType = 1;
 
 init();
 animate();
@@ -71,13 +73,16 @@ function loadTextures() {
 }
 
 function updateToolbarUI() {
-    for (let i = 1; i <= 5; i++) {
-        document.getElementById(`slot-${i}`).classList.remove('active');
-    }
-    document.getElementById(`slot-${selectedBlockType}`).classList.add('active');
+    if (uiSlots.length === 0) return; // safeguard
+    uiSlots[previousSelectedBlockType - 1].classList.remove('active');
+    uiSlots[selectedBlockType - 1].classList.add('active');
+    previousSelectedBlockType = selectedBlockType;
 }
 
 function init() {
+    for (let i = 1; i <= 5; i++) {
+        uiSlots.push(document.getElementById(`slot-${i}`));
+    }
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x87CEEB);
     scene.fog = new THREE.Fog(0x87CEEB, 20, 100);
