@@ -35,8 +35,8 @@ let dirtMaterial, grassMaterial, stoneMaterial, woodMaterial, sandMaterial, glas
 // 1: Dirt, 2: Stone, 3: Wood, 4: Sand, 5: Glass
 let selectedBlockType = 1;
 
-init();
-animate();
+if (typeof process === "undefined" || process.env.NODE_ENV !== "test") { init(); animate(); }
+
 
 function loadTextures() {
     const textureLoader = new THREE.TextureLoader();
@@ -365,3 +365,4 @@ function animate() {
     updatePhysics();
     renderer.render(scene, camera);
 }
+export { getBlockAt, blockMap };

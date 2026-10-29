@@ -1,0 +1,28 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EndermanTV/EndermanTV.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/EndermanTV/EndermanTV/issues"
+  },
+  "homepage": "https://github.com/EndermanTV/EndermanTV#readme",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  },
+  "dependencies": {
+    "jest-environment-jsdom": "^30.5.2",
+    "three": "^0.186.1"
+  }
+}
