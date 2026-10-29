@@ -148,6 +148,10 @@ function onDocumentMouseDown(event) {
             voxel.position.copy(intersect.point).add(intersect.face.normal.clone().multiplyScalar(0.5));
             voxel.position.round();
 
+            // Optimization: Stop calculating matrices for static voxels every frame
+            voxel.matrixAutoUpdate = false;
+            voxel.updateMatrix();
+
             const key = `${voxel.position.x},${voxel.position.y},${voxel.position.z}`;
             if (!blockMap.has(key)) {
                 blockMap.set(key, voxel);
@@ -251,6 +255,10 @@ function generateTerrain() {
                 const material = (y === height) ? grassMaterial : dirtMaterial;
                 const block = new THREE.Mesh(geometry, material);
                 block.position.set(x, y, z);
+
+                // Optimization: Stop calculating matrices for static terrain blocks every frame
+                block.matrixAutoUpdate = false;
+                block.updateMatrix();
 
                 const key = `${x},${y},${z}`;
                 blockMap.set(key, block);
