@@ -132,15 +132,8 @@ function onDocumentMouseDown(event) {
             }
         } else if (event.button === 2) {
             // Right Click: Place Block
-            let materialToPlace;
-            switch(selectedBlockType) {
-                case 1: materialToPlace = dirtMaterial; break;
-                case 2: materialToPlace = stoneMaterial; break;
-                case 3: materialToPlace = woodMaterial; break;
-                case 4: materialToPlace = sandMaterial; break;
-                case 5: materialToPlace = glassMaterial; break;
-                default: materialToPlace = dirtMaterial;
-            }
+            const materials = [null, dirtMaterial, stoneMaterial, woodMaterial, sandMaterial, glassMaterial];
+            let materialToPlace = materials[selectedBlockType] || dirtMaterial;
 
             const voxelGeometry = new THREE.BoxGeometry(blockSize, blockSize, blockSize);
             const voxel = new THREE.Mesh(voxelGeometry, materialToPlace);

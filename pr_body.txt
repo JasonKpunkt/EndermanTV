@@ -1,0 +1,5 @@
+## Description
+🎯 **What:** The code health issue addressed was a hardcoded switch statement used for assigning `materialToPlace` based on `selectedBlockType`.
+💡 **Why:** Refactoring the switch statement into an array indexed by `selectedBlockType` (`[null, dirtMaterial, stoneMaterial, woodMaterial, sandMaterial, glassMaterial]`) reduces the number of lines of code, improves readability, and avoids repeating similar `case` assignments. It's also more easily testable. The logical OR `|| dirtMaterial` preserves existing default behavior.
+✅ **Verification:** I started a local server and wrote a Playwright test script to simulate gameplay (launch browser, load canvas, press '2' to switch to `stoneMaterial`, right click to place a block) and verified visually via screenshots that the code works correctly without throwing any errors or changing behavior.
+✨ **Result:** A more concise block placing mechanic.
