@@ -295,7 +295,55 @@ function checkCollision(pos, radius, height) {
     return false;
 }
 
+
+// Helper to apply horizontal movement and check collision
+function applyHorizontalMovement(player, pos, delta) {
+    const originalX = pos.x;
+    const originalZ = pos.z;
+
+    // Move X
+    player.translateX(velocity.x * delta);
+    if (checkCollision(pos, playerRadius, playerHeight)) {
+        pos.x = originalX;
+        velocity.x = 0;
+    }
+
+    // Move Z (forward/backward)
+    // Re-apply velocity to move relative to camera direction
+    player.translateZ(velocity.z * delta);
+    if (checkCollision(pos, playerRadius, playerHeight)) {
+        pos.z = originalZ;
+        velocity.z = 0;
+    }
+}
+
+// Helper to apply vertical movement and check collision
+function applyVerticalMovement(pos, delta) {
+    const originalY = pos.y;
+    pos.y += velocity.y * delta;
+
+    if (checkCollision(pos, playerRadius, playerHeight)) {
+        pos.y = originalY;
+        if (velocity.y < 0) {
+            // Landed on ground
+            canJump = true;
+
+            // Snap exactly to top of block below (blocks are centered at integer coordinates, so top is +0.5)
+            pos.y = Math.floor(pos.y - playerHeight) + 0.5 + playerHeight;
+        }
+        velocity.y = 0;
+    }
+
+    if (pos.y < -20) {
+        velocity.y = 0;
+        pos.y = 20;
+        pos.x = 0;
+        pos.z = 0;
+    }
+}
+
 function updatePhysics() {
+
     const time = performance.now();
 
     if (controls.isLocked === true) {
@@ -314,47 +362,9 @@ function updatePhysics() {
         if (moveForward || moveBackward) velocity.z -= direction.z * playerSpeed * delta;
         if (moveLeft || moveRight) velocity.x -= direction.x * playerSpeed * delta;
 
-        // Apply Horizontal Movement & Check Collision
-        const originalX = pos.x;
-        const originalZ = pos.z;
-
-        // Move X
-        player.translateX(velocity.x * delta);
-        if (checkCollision(pos, playerRadius, playerHeight)) {
-            pos.x = originalX;
-            velocity.x = 0;
-        }
-
-        // Move Z (forward/backward)
-        // Re-apply velocity to move relative to camera direction
-        player.translateZ(velocity.z * delta);
-        if (checkCollision(pos, playerRadius, playerHeight)) {
-            pos.z = originalZ;
-            velocity.z = 0;
-        }
-
-        // Apply Vertical Movement & Check Collision
-        const originalY = pos.y;
-        pos.y += velocity.y * delta;
-
-        if (checkCollision(pos, playerRadius, playerHeight)) {
-            pos.y = originalY;
-            if (velocity.y < 0) {
-                // Landed on ground
-                canJump = true;
-
-                // Snap exactly to top of block below (blocks are centered at integer coordinates, so top is +0.5)
-                pos.y = Math.floor(pos.y - playerHeight) + 0.5 + playerHeight;
-            }
-            velocity.y = 0;
-        }
-
-        if (pos.y < -20) {
-            velocity.y = 0;
-            pos.y = 20;
-            pos.x = 0;
-            pos.z = 0;
-        }
+        // Apply Movement & Check Collision
+        applyHorizontalMovement(player, pos, delta);
+        applyVerticalMovement(pos, delta);
     }
 
     prevTime = time;
