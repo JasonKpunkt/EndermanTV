@@ -128,7 +128,19 @@ function onDocumentMouseDown(event) {
                 blockMap.delete(key);
 
                 scene.remove(intersect.object);
-                objects.splice(objects.indexOf(intersect.object), 1);
+
+                // O(1) removal from objects array
+                const index = intersect.object.userData.objectIndex;
+                if (index !== undefined && index > -1 && index < objects.length) {
+                    const last = objects.pop();
+                    if (index < objects.length) {
+                        objects[index] = last;
+                        if (last.userData) {
+                            last.userData.objectIndex = index;
+                        }
+                    }
+                    intersect.object.userData.objectIndex = -1;
+                }
             }
         } else if (event.button === 2) {
             // Right Click: Place Block
@@ -152,6 +164,7 @@ function onDocumentMouseDown(event) {
             if (!blockMap.has(key)) {
                 blockMap.set(key, voxel);
                 scene.add(voxel);
+                voxel.userData = { objectIndex: objects.length };
                 objects.push(voxel);
             }
         }
@@ -256,6 +269,7 @@ function generateTerrain() {
                 blockMap.set(key, block);
 
                 scene.add(block);
+                block.userData = { objectIndex: objects.length };
                 objects.push(block);
             }
         }
