@@ -108,11 +108,13 @@ function init() {
     window.addEventListener('resize', onWindowResize);
 }
 
+const centerVector = new THREE.Vector2(0, 0);
+
 function onDocumentMouseDown(event) {
     if (!controls.isLocked) return;
 
     // Raycast from center of screen
-    raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+    raycaster.setFromCamera(centerVector, camera);
 
     const intersects = raycaster.intersectObjects(objects, false);
 
