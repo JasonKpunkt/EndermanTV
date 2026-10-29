@@ -270,7 +270,7 @@ function onWindowResize() {
 
 // Helper function to check if a block exists at world coordinates
 function getBlockAt(x, y, z) {
-    return blockMap.has(`${Math.round(x)},${Math.round(y)},${Math.round(z)}`);
+    return blockMap.has(`${x},${y},${z}`);
 }
 
 // AABB Collision detection against terrain
