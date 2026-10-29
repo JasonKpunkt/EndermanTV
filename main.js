@@ -73,7 +73,7 @@ function loadTextures() {
 }
 
 function updateToolbarUI() {
-    if (uiSlots.length === 0) return; // safeguard
+    if (uiSlots.length === 0 || selectedBlockType === previousSelectedBlockType) return;
     uiSlots[previousSelectedBlockType - 1].classList.remove('active');
     uiSlots[selectedBlockType - 1].classList.add('active');
     previousSelectedBlockType = selectedBlockType;
